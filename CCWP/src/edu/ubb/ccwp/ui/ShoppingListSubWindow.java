@@ -3,6 +3,8 @@ package edu.ubb.ccwp.ui;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -19,22 +21,27 @@ import edu.ubb.ccwp.exception.NotInShopException;
 import edu.ubb.ccwp.exception.ProductNotFoundException;
 import edu.ubb.ccwp.exception.ShopNotFoundException;
 import edu.ubb.ccwp.model.Product;
+import edu.ubb.ccwp.model.ProductInShop;
 import edu.ubb.ccwp.model.Shop;
 
-public class ShoppingListSubWindow extends Window {
+public class ShoppingListSubWindow extends Window  {
 	
 	private Button ok;
 	private VerticalLayout layout;
 	private int prodId;
 	private Product prod;
 	private Table table;
+	private ArrayList<ProductInShop> shoppingList;
+	private SearchPage search;
 	
 	
-    public ShoppingListSubWindow(int id) {
+    public ShoppingListSubWindow(int id, SearchPage sp) {
         super("Add shopping list"); 
         center();
         prodId = id;
+        search = sp;
 
+       
         table = new Table();
 		table.setSelectable(true);
 		table.setImmediate(true);
@@ -65,16 +72,13 @@ public class ShoppingListSubWindow extends Window {
                 	DAOFactory df = DAOFactory.getInstance();
                 	
 					shop = df.getShopsDAO().getShopByShopName((String) table.getItem(table.getValue()).getItemProperty("Shop").getValue());
-					getSession().setAttribute("product",prod);
-	            	getSession().setAttribute("shop", shop);
-	            	//System.out.println("prod "+prod.getProductName()+" shop "+shop.getShopName());
-					//getUI().getNavigator().navigateTo(ShoppingList.NAME);
-	                
-	            	
-	            	
-	            	
-	            	
-	            	
+				
+					ProductInShop productInShop = new ProductInShop();
+					productInShop.setProd(prod);
+					productInShop.setShop(shop);
+			
+					search.addShopList(productInShop);
+				
 	            	close(); // Close the sub-window
 	                
             	} catch (SQLException e) {

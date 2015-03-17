@@ -39,7 +39,7 @@ import edu.ubb.ccwp.exception.NotInShopException;
 import edu.ubb.ccwp.exception.ProductNotFoundException;
 import edu.ubb.ccwp.model.Company;
 import edu.ubb.ccwp.model.Product;
-import edu.ubb.ccwp.model.ProductList;
+import edu.ubb.ccwp.model.ProductInShop;
 import edu.ubb.ccwp.model.Shop;
 import edu.ubb.ccwp.model.User;
 
@@ -51,13 +51,15 @@ public class SearchPage extends CustomComponent implements View {
 	public static final String NAME = "searchPage";
 	private VerticalLayout layout;
 	private VerticalLayout baseLayout;
-	private HorizontalLayout hLayout = new HorizontalLayout();
+	private HorizontalLayout hLayout;
 	private VerticalLayout textContent;
 	private User user;
 	private Table table;
 	private ComboBox shopSelect;
 	private ComboBox compSelect;
 	private TreeTable catTree;
+	private SearchPage sp = this;
+	private ArrayList<ProductInShop> list;
 
 
 	private TextField searchText;
@@ -69,6 +71,8 @@ public class SearchPage extends CustomComponent implements View {
 		layout.setSizeFull();
 		baseLayout = new VerticalLayout();
 		layout.addComponent(baseLayout);
+		
+		hLayout = new HorizontalLayout();
 		hLayout.setSizeFull();
 		hLayout.setHeight("100%");
 		hLayout.setWidth("100%");
@@ -87,16 +91,10 @@ public class SearchPage extends CustomComponent implements View {
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
 		user = (User) getSession().getAttribute("user");
-		
-		ArrayList<ProductList> productList;
-		
-		productList = (ArrayList<ProductList>) getSession().getAttribute("productList");
-		
-		if(productList == null){
-			System.out.println(" null ");
-			productList = new ArrayList<ProductList>();
-		}
-		
+
+
+
+
 		baseLayout.addComponent(new BasePageUI(user));
 		setImmediate(true);
 
@@ -214,7 +212,7 @@ public class SearchPage extends CustomComponent implements View {
 			}else{
 				price = String.format("%1$,.2f",getAvgPrice(product))+ " lej"; 
 			}
-			table.addItem(new Object[] {product.getProductId(), product.getProductName(), product.getProductDescription(),product.getProductRate(), price, new Button("Shopping List",
+			table.addItem(new Object[] {product.getProductId(), product.getProductName(), product.getProductDescription(),product.getProductRate(), price, new Button("Add to list",
 					new ListButtonListener(product.getProductId()))}, i );
 			i++;
 			table.setItemDescriptionGenerator(new ItemDescriptionGenerator() {                             
@@ -223,7 +221,7 @@ public class SearchPage extends CustomComponent implements View {
 						return table.getItem(itemId).getItemProperty(propertyId).getValue()+"";
 					}
 					return null;                                                                       
-					
+
 				}
 			});
 		}
@@ -360,12 +358,12 @@ public class SearchPage extends CustomComponent implements View {
 		@Override
 		public void buttonClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-			
+
 			//a bevasarlo listaba kellene adni
-			ShoppingListSubWindow window = new ShoppingListSubWindow(productId);
-			
+			ShoppingListSubWindow window = new ShoppingListSubWindow(productId, sp);
+
 			UI.getCurrent().addWindow(window);
-		
+
 
 		}
 
@@ -393,5 +391,28 @@ public class SearchPage extends CustomComponent implements View {
 			}
 		}
 		return catIds;
+	}
+
+	public void addShopList(ProductInShop prList){
+
+		list = (ArrayList<ProductInShop>) getSession().getAttribute("productList");
+
+		if(list == null){
+			System.out.println(" null ");
+			list = new ArrayList<ProductInShop>();
+			list.add(prList);
+			getSession().setAttribute("productList", list);
+
+		}else{
+			for (ProductInShop prodList : list) {
+
+
+				System.out.println(prodList.getProd().getProductName()+" " + prodList.getShop().getShopName());
+			}
+			list.add(prList);
+			getSession().setAttribute("productList", list);
+
+		}
+
 	}
 }
