@@ -5,6 +5,7 @@ import edu.ubb.ccwp.dao.CompanyDAO;
 import edu.ubb.ccwp.dao.DAOFactory;
 import edu.ubb.ccwp.dao.ProductDAO;
 import edu.ubb.ccwp.dao.ShopDAO;
+import edu.ubb.ccwp.dao.ShoppingListDAO;
 import edu.ubb.ccwp.dao.UserDAO;
 
 public class JdbcDAOFactory extends DAOFactory {
@@ -40,6 +41,13 @@ public class JdbcDAOFactory extends DAOFactory {
 	public CategoryDAO getCategoryDAO() {
 		// TODO Auto-generated method stub
 		return new CategoryJdbcDAO();
+	}
+
+
+	@Override
+	public ShoppingListDAO getShoppingListDAO() {
+		// TODO Auto-generated method stub
+		return new ShoppingListJdbcDAO();
 	}
 
 }

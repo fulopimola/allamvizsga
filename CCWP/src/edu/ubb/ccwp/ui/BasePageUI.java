@@ -74,7 +74,7 @@ public class BasePageUI  extends VerticalLayout{
 				}
 				if(selectedItem.getText().equals("Shopping List")){
 
-					getUI().getNavigator().navigateTo(ShoppingList.NAME);
+					getUI().getNavigator().navigateTo(ShoppingListUI.NAME);
 				}
 				
 				if(selectedItem.getText().equals(user.getUserName()) && !user.getUserName().equals("Guest")){              	

@@ -407,7 +407,7 @@ public class SearchPage extends CustomComponent implements View {
 			for (ProductInShop prodList : list) {
 
 
-				System.out.println(prodList.getProd().getProductName()+" " + prodList.getShop().getShopName());
+				//System.out.println(prodList.getProd().getProductName()+" " + prodList.getShop().getShopName());
 			}
 			list.add(prList);
 			getSession().setAttribute("productList", list);

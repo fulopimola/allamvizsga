@@ -7,6 +7,7 @@ public class ProductInShop {
 	private boolean isDiscont;
 	private int discontId;
 	private boolean found;
+	private double quant;
 	
 	public Product getProd() {
 		return prod;
@@ -44,5 +45,12 @@ public class ProductInShop {
 	public void setFound(boolean found) {
 		this.found = found;
 	}
+	public double getQuant() {
+		return quant;
+	}
+	public void setQuant(double quant) {
+		this.quant = quant;
+	}
+	
 
 }

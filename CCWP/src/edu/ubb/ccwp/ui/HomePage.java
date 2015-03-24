@@ -39,7 +39,7 @@ public class HomePage extends UI {
 		navigator.addView(RegistrationView.NAME, RegistrationView.class);
 		navigator.addView(SearchPage.NAME, SearchPage.class);
 		navigator.addView(ProductPage.NAME, ProductPage.class);
-		navigator.addView(ShoppingList.NAME, ShoppingList.class);
+		navigator.addView(ShoppingListUI.NAME, ShoppingListUI.class);
 	}
 
 
